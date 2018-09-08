@@ -164,9 +164,9 @@ end
 def player_numbers(team)
   numbers = []
   game_hash.each do |team_location, team_data|
-    players_array = team_data[:players]
     if team_data[:team_name] = team 
-      players_array.each do |player|
+      team_players_array = team_data[:players]
+      team_players_array.each do |player|
         numbers << player[:number]
       end
     end
@@ -174,10 +174,19 @@ def player_numbers(team)
   numbers
 end
 
-def player_stats(player)
-  
-end
 
+def player_stats(player)
+  stats = {}
+  game_hash.each do |team_location, team_data|
+    players_array = team_data[:players]
+    players_array.each do |player_details|
+      if player_details[:player_name] = player
+        stats << player_details
+      end
+    end
+  end
+  stats
+end
 
 
 def big_shoe_rebounds
