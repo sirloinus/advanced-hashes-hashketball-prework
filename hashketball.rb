@@ -164,7 +164,7 @@ end
 def player_numbers(team)
   numbers = []
   game_hash.each do |team_location, team_data|
-    if team_data[:team_name] = team 
+    if team_data[:team_name] == team 
       team_players_array = team_data[:players]
       team_players_array.each do |player|
         numbers << player[:number]
@@ -180,8 +180,9 @@ def player_stats(player)
   game_hash.each do |team_location, team_data|
     players_array = team_data[:players]
     players_array.each do |player_details|
-      if player_details[:player_name] = player
-        stats << player_details
+      if player_details[:player_name] == player
+        stats = player_details
+        stats.delete(:player_name)
       end
     end
   end
@@ -190,5 +191,16 @@ end
 
 
 def big_shoe_rebounds
-  
+  biggest_shoes = 0
+  rebounds = 0
+  game_hash.each do |team_location, team_data|
+    players_array = team_data[:players]
+    players_array.each do |player_details|
+      if player_details[:shoe] > biggest_shoes
+        biggest_shoes = player_details[:shoe]
+        rebounds = player_details[:rebounds]
+      end
+    end
+  end
+  rebounds
 end
