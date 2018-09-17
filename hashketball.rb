@@ -219,10 +219,44 @@ def most_points_scored
 end
 
 def winning_team
+  final = Hash.new(0)     #sets default hash value to 0
+  game_hash.each do |team_location, team_data|
+    players_array = team_data[:players]
+    players_array.each do |player_details|
+      points = player_details[:points]
+      final[team_data[:team_name]] = final[team_data[:team_name]] + player_details[:points]
+    end
+
+  end
+  final.key(final.values.max)
 end
 
 def player_with_longest_name
+ name_array = []
+ game_hash.each do |team_location, team_data|
+   team_data[:players].each do |player_details|
+    name_array.push(player_details[:player_name])
+  end
+end
+ name_array.sort_by {|name| name.length}
+ name_array.last
 end
 
-def long_name_steals_a_ton
+def long_name_steals_a_ton?
+  most_steals = 0
+  highest_player = ''
+  game_hash.each do |team_location, team_data|
+    players_array = team_data[:players]
+    players_array.each do |player_details|
+      if player_details[:steals] > most_steals
+        highest_player = player_details[:player_name]
+        most_steals = player_details[:steals]
+      end
+    end
+  end
+  if highest_player == player_with_longest_name
+    true
+  else
+    false
+  end
 end
